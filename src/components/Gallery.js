@@ -1,13 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import NoImages from "./NoImages";
 import Image from "./Image";
+import { PhotoContext } from "../context/PhotoContext";
 const Gallery = (props) => {
 	const results = props.data;
 	let images;
 	let noImages;
+	const { getMap } = useContext(PhotoContext);
 
 	function OnGeolocation(photo_id) {
 		console.log(photo_id);
+		getMap(photo_id);
 	}
 
 	// map variables to each item in fetched image array and return image component

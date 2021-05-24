@@ -9,6 +9,7 @@ const PhotoContextProvider = (props) => {
 	const [searchText, setSearchText] = useState("");
 	const [savedUrls, setSavedUrls] = useState([]);
 	const [savedViewedData, setSavedViewedData] = useState([{ url: "", data: [] }]);
+	const [geoLocation, setGeoLocation] = useState({ lat: "", long: "" });
 
 	useEffect(() => {
 		const runSearch = (searchText) => {
@@ -38,7 +39,19 @@ const PhotoContextProvider = (props) => {
 		}
 	}, [searchText, savedUrls, savedViewedData]);
 
-	return <PhotoContext.Provider value={{ images, loading, searchText, setSearchText, savedUrls, savedViewedData }}>{props.children}</PhotoContext.Provider>;
+	const getMap = (photo_id) => {
+		axios
+			.get(`https://api.flickr.com/services/rest/?method=flickr.photos.geo.getLocation&api_key=${apiKey}&photo_id=${photo_id}&format=json&nojsoncallback=1`)
+			.then((response) => {
+				console.log(response);
+				setGeoLocation({ lat: response.data.photo.location.latitude, long: response.data.photo.location.longitude });
+			})
+			.catch((error) => {
+				console.log("Encountered an error with fetching and parsing data", error);
+			});
+	};
+
+	return <PhotoContext.Provider value={{ images, loading, searchText, setSearchText, savedUrls, savedViewedData, getMap, geoLocation }}>{props.children}</PhotoContext.Provider>;
 };
 
 export default PhotoContextProvider;

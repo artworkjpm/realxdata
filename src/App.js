@@ -29,7 +29,7 @@ class App extends Component {
 							<Route path="/bird" render={() => <Item searchTerm="bird" />} />
 							<Route path="/food" render={() => <Item searchTerm="food" />} />
 							<Route path="/search/:searchInput" render={(props) => <Search searchTerm={props.match.params.searchInput} />} />
-							<Route path="/image-details/:photoId" render={(props) => <ImageDetails photoId={props.match.params.photoId} />} />
+							<Route path="/:user/:photoId" render={(props) => <ImageDetails user={props.match.params.user} photoId={props.match.params.photoId} />} />
 							<Route component={NotFound} />
 						</Switch>
 					</div>

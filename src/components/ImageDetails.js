@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react";
 import { PhotoContext } from "../context/PhotoContext";
 
 export default function ImageDetails(props) {
-	const { getGeoLocation, getUserDetails, getPhotoFromUrl, clickedImage } = useContext(PhotoContext);
+	const { getGeoLocation, getUserDetails, getPhotoFromUrl, clickedImage, loading } = useContext(PhotoContext);
 	const { user, photoId } = props;
 	console.log(clickedImage);
 
@@ -20,12 +20,17 @@ export default function ImageDetails(props) {
 
 	return (
 		<div className="image-details">
-			<div className="go-back">
-				<div onClick={() => goBack()}>{"<"} back to search</div>
-			</div>
+			{!loading && (
+				<div>
+					<div>{String(loading)}</div>
+					<div className="go-back">
+						<div onClick={() => goBack()}>{"<"} back to search</div>
+					</div>
 
-			<h2>{clickedImage.title.replace(/['"]+/g, "")}</h2>
-			<img src={clickedImage.imageUrl} alt="" />
+					<h2>{clickedImage.title.replace(/['"]+/g, "")}</h2>
+					<img src={clickedImage.imageUrl} alt="" />
+				</div>
+			)}
 		</div>
 	);
 }

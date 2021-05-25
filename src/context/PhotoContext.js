@@ -51,6 +51,7 @@ const PhotoContextProvider = (props) => {
 				} else {
 					setGeoLocation({ lat: "", long: "" });
 				}
+				setLoading(false);
 			})
 			.catch((error) => {
 				console.log("Encountered an error with fetching and parsing data", error);

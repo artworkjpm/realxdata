@@ -238,3 +238,9 @@ input {
 .image-details {
 	text-align: left;
 }
+
+.go-back {
+	cursor: pointer;
+	font-size: 20px;
+	text-decoration: underline;
+}

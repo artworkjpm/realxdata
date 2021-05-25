@@ -14,8 +14,16 @@ export default function ImageDetails(props) {
 		// eslint-disable-next-line
 	}, []);
 
+	function goBack() {
+		window.history.back();
+	}
+
 	return (
 		<div className="image-details">
+			<div className="go-back">
+				<div onClick={() => goBack()}>{"<"} back to search</div>
+			</div>
+
 			<h2>{clickedImage.title.replace(/['"]+/g, "")}</h2>
 			<img src={clickedImage.imageUrl} alt="" />
 		</div>

@@ -44,7 +44,6 @@ const PhotoContextProvider = (props) => {
 
 	const getGeoLocation = (photo_id) => {
 		setLoading(true);
-		setGeoLocation({ lat: "", long: "" });
 		axios
 			.get(`https://api.flickr.com/services/rest/?method=flickr.photos.geo.getLocation&api_key=${apiKey}&photo_id=${photo_id}&format=json&nojsoncallback=1`)
 			.then((response) => {
@@ -62,7 +61,6 @@ const PhotoContextProvider = (props) => {
 	};
 	const getUserDetails = (user_id) => {
 		setLoading(true);
-		setUserDetails({ user: "", avatar: "" });
 		axios
 			.get(`https://api.flickr.com/services/rest/?method=flickr.people.getInfo&api_key=${apiKey}&user_id=${user_id}&format=json&nojsoncallback=1`)
 			.then((response) => {
@@ -77,7 +75,6 @@ const PhotoContextProvider = (props) => {
 
 	const getPhotoFromUrl = (photo_id) => {
 		setLoading(true);
-		setClickedImage({ data: {}, title: "", imageUrl: "" });
 		axios
 			.get(`https://api.flickr.com/services/rest/?method=flickr.photos.getInfo&api_key=${apiKey}&photo_id=${photo_id}&format=json&nojsoncallback=1`)
 			.then((response) => {

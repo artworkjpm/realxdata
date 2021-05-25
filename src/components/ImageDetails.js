@@ -1,16 +1,14 @@
 import React, { useContext, useEffect } from "react";
 import { PhotoContext } from "../context/PhotoContext";
 
-export default function ImageDetails(props) {
+export default function ImageDetails({ user, photoId }) {
 	const { getGeoLocation, getUserDetails, getPhotoFromUrl, clickedImage, loading } = useContext(PhotoContext);
-	const { user, photoId } = props;
 	console.log(clickedImage);
 
 	useEffect(() => {
 		getUserDetails(user);
 		getPhotoFromUrl(photoId);
 		getGeoLocation(photoId);
-
 		// eslint-disable-next-line
 	}, []);
 

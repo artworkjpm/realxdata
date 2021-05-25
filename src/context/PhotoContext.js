@@ -15,6 +15,7 @@ const PhotoContextProvider = (props) => {
 
 	useEffect(() => {
 		const runSearch = (searchText) => {
+			setLoading(true);
 			axios
 				.get(`https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${searchText}&per_page=24&format=json&nojsoncallback=1`)
 				.then((response) => {
@@ -42,6 +43,8 @@ const PhotoContextProvider = (props) => {
 	}, [searchText, savedUrls, savedViewedData]);
 
 	const getGeoLocation = (photo_id) => {
+		setLoading(true);
+		setGeoLocation({ lat: "", long: "" });
 		axios
 			.get(`https://api.flickr.com/services/rest/?method=flickr.photos.geo.getLocation&api_key=${apiKey}&photo_id=${photo_id}&format=json&nojsoncallback=1`)
 			.then((response) => {
@@ -58,11 +61,14 @@ const PhotoContextProvider = (props) => {
 			});
 	};
 	const getUserDetails = (user_id) => {
+		setLoading(true);
+		setUserDetails({ user: "", avatar: "" });
 		axios
 			.get(`https://api.flickr.com/services/rest/?method=flickr.people.getInfo&api_key=${apiKey}&user_id=${user_id}&format=json&nojsoncallback=1`)
 			.then((response) => {
 				console.log(response);
 				setUserDetails({ user: response.data.person, avatar: `http://farm${response.data.person.iconfarm}.staticflickr.com/${response.data.person.iconserver}/buddyicons/${response.data.person.nsid}.jpg` });
+				setLoading(false);
 			})
 			.catch((error) => {
 				console.log("Encountered an error with fetching and parsing data", error);
@@ -70,18 +76,21 @@ const PhotoContextProvider = (props) => {
 	};
 
 	const getPhotoFromUrl = (photo_id) => {
+		setLoading(true);
+		setClickedImage({ data: {}, title: "", imageUrl: "" });
 		axios
 			.get(`https://api.flickr.com/services/rest/?method=flickr.photos.getInfo&api_key=${apiKey}&photo_id=${photo_id}&format=json&nojsoncallback=1`)
 			.then((response) => {
 				console.log(response);
 				setClickedImage({ data: response.data.photo, title: response.data.photo.title._content, imageUrl: `https://farm${response.data.photo.farm}.staticflickr.com/${response.data.photo.server}/${response.data.photo.id}_${response.data.photo.secret}_m.jpg` });
+				setLoading(false);
 			})
 			.catch((error) => {
 				console.log("Encountered an error with fetching and parsing data", error);
 			});
 	};
 
-	return <PhotoContext.Provider value={{ images, loading, searchText, setSearchText, savedUrls, savedViewedData, getGeoLocation, geoLocation, getUserDetails, userDetails, getPhotoFromUrl, clickedImage, setGeoLocation, setUserDetails, setClickedImage }}>{props.children}</PhotoContext.Provider>;
+	return <PhotoContext.Provider value={{ images, loading, setLoading, searchText, setSearchText, savedUrls, savedViewedData, getGeoLocation, geoLocation, getUserDetails, userDetails, getPhotoFromUrl, clickedImage, setGeoLocation, setUserDetails, setClickedImage }}>{props.children}</PhotoContext.Provider>;
 };
 
 export default PhotoContextProvider;

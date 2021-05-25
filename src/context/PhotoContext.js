@@ -44,7 +44,10 @@ const PhotoContextProvider = (props) => {
 			.get(`https://api.flickr.com/services/rest/?method=flickr.photos.geo.getLocation&api_key=${apiKey}&photo_id=${photo_id}&format=json&nojsoncallback=1`)
 			.then((response) => {
 				console.log(response);
-				setGeoLocation({ lat: response.data.photo.location.latitude, long: response.data.photo.location.longitude });
+
+				if (response.data.photo) {
+					setGeoLocation({ lat: response.data.photo.location.latitude, long: response.data.photo.location.longitude });
+				}
 			})
 			.catch((error) => {
 				console.log("Encountered an error with fetching and parsing data", error);

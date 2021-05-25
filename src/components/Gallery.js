@@ -2,15 +2,17 @@ import React, { useContext } from "react";
 import NoImages from "./NoImages";
 import Image from "./Image";
 import { PhotoContext } from "../context/PhotoContext";
+import { withRouter } from "react-router-dom";
 const Gallery = (props) => {
 	const results = props.data;
 	let images;
 	let noImages;
-	const { getMap } = useContext(PhotoContext);
+	const { getGeoLocation, getUserDetails } = useContext(PhotoContext);
 
-	function OnGeolocation(photo_id) {
-		console.log(photo_id);
-		getMap(photo_id);
+	function OnGeolocation(imageDetails, imgUrl) {
+		getGeoLocation(imageDetails, imgUrl);
+		getUserDetails(imageDetails.owner);
+		props.history.push(`/image-details/${imageDetails.id}`);
 	}
 
 	// map variables to each item in fetched image array and return image component
@@ -22,7 +24,7 @@ const Gallery = (props) => {
 			let secret = image.secret;
 			let title = image.title;
 			let url = `https://farm${farm}.staticflickr.com/${server}/${id}_${secret}_m.jpg`;
-			return <Image url={url} key={id} alt={title} OnGeolocation={() => OnGeolocation(id)} />;
+			return <Image url={url} key={id} alt={title} OnGeolocation={() => OnGeolocation(image, url)} />;
 		});
 	} else {
 		noImages = <NoImages />; // return 'not found' component if no images fetched
@@ -35,4 +37,4 @@ const Gallery = (props) => {
 	);
 };
 
-export default Gallery;
+export default withRouter(Gallery);

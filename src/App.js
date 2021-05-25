@@ -5,6 +5,7 @@ import Header from "./components/Header";
 import Item from "./components/Item";
 import Search from "./components/Search";
 import NotFound from "./components/NotFound";
+import ImageDetails from "./components/ImageDetails";
 
 class App extends Component {
 	// Prevent page reload, clear input, set URL and push history on submit
@@ -28,6 +29,7 @@ class App extends Component {
 							<Route path="/bird" render={() => <Item searchTerm="bird" />} />
 							<Route path="/food" render={() => <Item searchTerm="food" />} />
 							<Route path="/search/:searchInput" render={(props) => <Search searchTerm={props.match.params.searchInput} />} />
+							<Route path="/image-details/:photoId" render={(props) => <ImageDetails photoId={props.match.params.photoId} />} />
 							<Route component={NotFound} />
 						</Switch>
 					</div>

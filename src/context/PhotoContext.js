@@ -9,7 +9,8 @@ const PhotoContextProvider = (props) => {
 	const [searchText, setSearchText] = useState("");
 	const [savedUrls, setSavedUrls] = useState([]);
 	const [savedViewedData, setSavedViewedData] = useState([{ url: "", data: [] }]);
-	const [geoLocation, setGeoLocation] = useState({ lat: "", long: "" });
+	const [geoLocation, setGeoLocation] = useState({ lat: "", long: "", imageData: {}, imgUrl: "" });
+	const [userDetails, setUserDetails] = useState({ user: "", avatar: "" });
 
 	useEffect(() => {
 		const runSearch = (searchText) => {
@@ -39,22 +40,34 @@ const PhotoContextProvider = (props) => {
 		}
 	}, [searchText, savedUrls, savedViewedData]);
 
-	const getMap = (photo_id) => {
+	const getGeoLocation = (imageDetails, imgUrl) => {
 		axios
-			.get(`https://api.flickr.com/services/rest/?method=flickr.photos.geo.getLocation&api_key=${apiKey}&photo_id=${photo_id}&format=json&nojsoncallback=1`)
+			.get(`https://api.flickr.com/services/rest/?method=flickr.photos.geo.getLocation&api_key=${apiKey}&photo_id=${imageDetails.id}&format=json&nojsoncallback=1`)
 			.then((response) => {
-				console.log(response);
-
 				if (response.data.photo) {
-					setGeoLocation({ lat: response.data.photo.location.latitude, long: response.data.photo.location.longitude });
+					setGeoLocation({ lat: response.data.photo.location.latitude, long: response.data.photo.location.longitude, imageData: imageDetails, imgUrl });
+				} else {
+					setGeoLocation({ lat: "", long: "", imageData: imageDetails, imgUrl });
 				}
 			})
 			.catch((error) => {
 				console.log("Encountered an error with fetching and parsing data", error);
 			});
 	};
+	const getUserDetails = (user_id) => {
+		axios
+			.get(`https://api.flickr.com/services/rest/?method=flickr.people.getInfo&api_key=${apiKey}&user_id=${user_id}&format=json&nojsoncallback=1`)
+			.then((response) => {
+				console.log(response);
 
-	return <PhotoContext.Provider value={{ images, loading, searchText, setSearchText, savedUrls, savedViewedData, getMap, geoLocation }}>{props.children}</PhotoContext.Provider>;
+				setUserDetails({ user: response.data.person, avatar: `http://farm${response.data.person.iconfarm}.staticflickr.com/${response.data.person.iconserver}/buddyicons/${response.data.person.nsid}.jpg` });
+			})
+			.catch((error) => {
+				console.log("Encountered an error with fetching and parsing data", error);
+			});
+	};
+
+	return <PhotoContext.Provider value={{ images, loading, searchText, setSearchText, savedUrls, savedViewedData, getGeoLocation, geoLocation, getUserDetails, userDetails }}>{props.children}</PhotoContext.Provider>;
 };
 
 export default PhotoContextProvider;

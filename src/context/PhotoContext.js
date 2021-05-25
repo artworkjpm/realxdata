@@ -11,7 +11,7 @@ const PhotoContextProvider = (props) => {
 	const [savedViewedData, setSavedViewedData] = useState([{ url: "", data: [] }]);
 	const [geoLocation, setGeoLocation] = useState({ lat: "", long: "" });
 	const [userDetails, setUserDetails] = useState({ user: "", avatar: "" });
-	const [clickedImage, setClickedImage] = useState({ imageUrl: "" });
+	const [clickedImage, setClickedImage] = useState({ data: {}, title: "", imageUrl: "" });
 
 	useEffect(() => {
 		const runSearch = (searchText) => {
@@ -73,7 +73,7 @@ const PhotoContextProvider = (props) => {
 			.get(`https://api.flickr.com/services/rest/?method=flickr.photos.getInfo&api_key=${apiKey}&photo_id=${photo_id}&format=json&nojsoncallback=1`)
 			.then((response) => {
 				console.log(response);
-				setClickedImage({ imageUrl: `https://farm${response.data.photo.farm}.staticflickr.com/${response.data.photo.server}/${response.data.photo.id}_${response.data.photo.secret}_m.jpg` });
+				setClickedImage({ data: response.data.photo, title: response.data.photo.title._content, imageUrl: `https://farm${response.data.photo.farm}.staticflickr.com/${response.data.photo.server}/${response.data.photo.id}_${response.data.photo.secret}_m.jpg` });
 			})
 			.catch((error) => {
 				console.log("Encountered an error with fetching and parsing data", error);

@@ -80,7 +80,7 @@ const PhotoContextProvider = (props) => {
 			});
 	};
 
-	return <PhotoContext.Provider value={{ images, loading, searchText, setSearchText, savedUrls, savedViewedData, getGeoLocation, geoLocation, getUserDetails, userDetails, getPhotoFromUrl, clickedImage }}>{props.children}</PhotoContext.Provider>;
+	return <PhotoContext.Provider value={{ images, loading, searchText, setSearchText, savedUrls, savedViewedData, getGeoLocation, geoLocation, getUserDetails, userDetails, getPhotoFromUrl, clickedImage, setGeoLocation, setUserDetails, setClickedImage }}>{props.children}</PhotoContext.Provider>;
 };
 
 export default PhotoContextProvider;

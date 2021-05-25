@@ -1,16 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
 import NoImages from "./NoImages";
 import Image from "./Image";
 
 import { withRouter } from "react-router-dom";
+import { PhotoContext } from "../context/PhotoContext";
 const Gallery = (props) => {
+	const { setGeoLocation, setUserDetails, setClickedImage } = useContext(PhotoContext);
 	const results = props.data;
 	let images;
 	let noImages;
 
 	function OnGeolocation(photo_id, user) {
-		/* 	getGeoLocation(imageDetails, imgUrl);
-		getUserDetails(imageDetails.owner); */
+		setGeoLocation({ lat: "", long: "" });
+		setUserDetails({ user: "", avatar: "" });
+		setClickedImage({ data: {}, title: "", imageUrl: "" });
 		props.history.push(`/${user}/${photo_id}`);
 	}
 

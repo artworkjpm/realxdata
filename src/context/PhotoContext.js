@@ -52,7 +52,6 @@ const PhotoContextProvider = (props) => {
 		axios
 			.get(`https://api.flickr.com/services/rest/?method=flickr.photos.geo.getLocation&api_key=${apiKey}&photo_id=${photo_id}&format=json&nojsoncallback=1`)
 			.then((response) => {
-				console.log(response);
 				if (response.data.photo) {
 					setGeoLocation({ lat: response.data.photo.location.latitude, long: response.data.photo.location.longitude });
 				} else {
@@ -69,7 +68,6 @@ const PhotoContextProvider = (props) => {
 		axios
 			.get(`https://api.flickr.com/services/rest/?method=flickr.people.getInfo&api_key=${apiKey}&user_id=${user_id}&format=json&nojsoncallback=1`)
 			.then((response) => {
-				console.log(response);
 				setUserDetails({ user: response.data.person, avatar: `http://farm${response.data.person.iconfarm}.staticflickr.com/${response.data.person.iconserver}/buddyicons/${response.data.person.nsid}.jpg` });
 				setLoading(false);
 			})
@@ -83,7 +81,6 @@ const PhotoContextProvider = (props) => {
 		axios
 			.get(`https://api.flickr.com/services/rest/?method=flickr.photos.getInfo&api_key=${apiKey}&photo_id=${photo_id}&format=json&nojsoncallback=1`)
 			.then((response) => {
-				console.log(response);
 				setClickedImage({ data: response.data.photo, title: response.data.photo.title._content, imageUrl: `https://farm${response.data.photo.farm}.staticflickr.com/${response.data.photo.server}/${response.data.photo.id}_${response.data.photo.secret}_m.jpg` });
 				setLoading(false);
 			})

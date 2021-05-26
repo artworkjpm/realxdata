@@ -4,8 +4,6 @@ import mapboxgl from "mapbox-gl";
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
 
 const Mapbox = ({ geoLocation }) => {
-	console.log(Number(geoLocation.lat), Number(geoLocation.long));
-	console.log(process.env.REACT_APP_MAPBOX_ACCESS_TOKEN);
 	const mapContainerRef = useRef(null);
 
 	// initialize map when component mounts

@@ -4,8 +4,6 @@ import Mapbox from "./Mapbox/Mapbox";
 
 export default function ImageDetails({ user, photoId }) {
 	const { getGeoLocation, getUserDetails, getPhotoFromUrl, clickedImage, loading, geoLocation } = useContext(PhotoContext);
-	console.log(geoLocation);
-
 	useEffect(() => {
 		getUserDetails(user);
 		getPhotoFromUrl(photoId);

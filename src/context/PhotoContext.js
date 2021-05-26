@@ -81,6 +81,7 @@ const PhotoContextProvider = (props) => {
 		axios
 			.get(`https://api.flickr.com/services/rest/?method=flickr.photos.getInfo&api_key=${apiKey}&photo_id=${photo_id}&format=json&nojsoncallback=1`)
 			.then((response) => {
+				console.log(response);
 				setClickedImage({ data: response.data.photo, title: response.data.photo.title._content, imageUrl: `https://farm${response.data.photo.farm}.staticflickr.com/${response.data.photo.server}/${response.data.photo.id}_${response.data.photo.secret}_m.jpg` });
 				setLoading(false);
 			})

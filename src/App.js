@@ -6,6 +6,7 @@ import Item from "./components/Item";
 import Search from "./components/Search";
 import NotFound from "./components/NotFound";
 import ImageDetails from "./components/ImageDetails";
+import AboutApp from "./components/AboutApp";
 
 class App extends Component {
 	// Prevent page reload, clear input, set URL and push history on submit
@@ -30,6 +31,7 @@ class App extends Component {
 							<Route path="/food" render={() => <Item searchTerm="food" />} />
 							<Route path="/search/:searchInput" render={(props) => <Search searchTerm={props.match.params.searchInput} />} />
 							<Route path="/:user/:photoId" render={(props) => <ImageDetails user={props.match.params.user} photoId={props.match.params.photoId} />} />
+							<Route path="/about-this-app" render={() => <AboutApp />} />
 							<Route component={NotFound} />
 						</Switch>
 					</div>

@@ -13,11 +13,14 @@ const Mapbox = ({ geoLocation }) => {
 			// See style options here: https://docs.mapbox.com/api/maps/#styles
 			style: "mapbox://styles/mapbox/streets-v11",
 			center: [Number(geoLocation.long), Number(geoLocation.lat)],
-			zoom: 10,
+			zoom: 14,
 		});
 
 		// add navigation control (the +/- zoom buttons)
 		map.addControl(new mapboxgl.NavigationControl(), "bottom-right");
+
+		/* map.addLayer(new mapboxgl.Marker().setLngLat([Number(geoLocation.long), Number(geoLocation.lat)]).addTo(map)); */
+		new mapboxgl.Marker().setLngLat([Number(geoLocation.long), Number(geoLocation.lat)]).addTo(map);
 
 		// clean up on unmount
 		return () => map.remove();

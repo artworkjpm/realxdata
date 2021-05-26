@@ -30,7 +30,7 @@ export default function ImageDetails({ user, photoId }) {
 
 					<div className="info-container">
 						<div>
-							<img src={clickedImage.imageUrl} alt="" />
+							<img src={clickedImage.imageUrl} alt={clickedImage.title.replace(/['"]+/g, "")} width="100%" />
 						</div>
 						<div>{geoLocation.long ? <Mapbox geoLocation={geoLocation} /> : "No location data"}</div>
 					</div>

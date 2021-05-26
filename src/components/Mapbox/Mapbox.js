@@ -19,7 +19,6 @@ const Mapbox = ({ geoLocation }) => {
 		// add navigation control (the +/- zoom buttons)
 		map.addControl(new mapboxgl.NavigationControl(), "bottom-right");
 
-		/* map.addLayer(new mapboxgl.Marker().setLngLat([Number(geoLocation.long), Number(geoLocation.lat)]).addTo(map)); */
 		new mapboxgl.Marker().setLngLat([Number(geoLocation.long), Number(geoLocation.lat)]).addTo(map);
 
 		// clean up on unmount

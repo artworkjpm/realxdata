@@ -12,8 +12,11 @@ const PhotoContextProvider = (props) => {
 	const [geoLocation, setGeoLocation] = useState({ lat: "", long: "" });
 	const [userDetails, setUserDetails] = useState({ user: "", avatar: "" });
 	const [clickedImage, setClickedImage] = useState({ data: {}, title: "", imageUrl: "" });
+	const [itemsWithGeo, setItemsWithGeo] = useState([]);
+	const [checkBox, setCheckBox] = useState(false);
 
 	useEffect(() => {
+		setCheckBox(false);
 		const runSearch = (searchText) => {
 			setLoading(true);
 			axios
@@ -23,6 +26,7 @@ const PhotoContextProvider = (props) => {
 					setLoading(false);
 					setSavedUrls([...savedUrls, searchText]);
 					setSavedViewedData([...savedViewedData, { url: searchText, data: response.data.photos.photo }]);
+					filterGeos(response.data.photos.photo);
 				})
 				.catch((error) => {
 					console.log("Encountered an error with fetching and parsing data", error);
@@ -37,6 +41,7 @@ const PhotoContextProvider = (props) => {
 				if (result.length > 0) {
 					setImages(result[0].data);
 					setLoading(false);
+					filterGeos(result[0].data);
 				}
 			}
 		}
@@ -87,7 +92,25 @@ const PhotoContextProvider = (props) => {
 			});
 	};
 
-	return <PhotoContext.Provider value={{ images, loading, setLoading, searchText, setSearchText, savedUrls, savedViewedData, getGeoLocation, geoLocation, getUserDetails, userDetails, getPhotoFromUrl, clickedImage, setGeoLocation, setUserDetails, setClickedImage }}>{props.children}</PhotoContext.Provider>;
+	function filterGeos(imagesArray) {
+		setItemsWithGeo([]);
+		let a = [];
+		imagesArray.forEach((item) => {
+			axios
+				.get(`https://api.flickr.com/services/rest/?method=flickr.photos.geo.getLocation&api_key=${apiKey}&photo_id=${item.id}&format=json&nojsoncallback=1`)
+				.then((response) => {
+					if (response.data.photo) {
+						a.push(response.data.photo.id);
+						setItemsWithGeo(a);
+					}
+				})
+				.catch((error) => {
+					console.log("Encountered an error with fetching and parsing data", error);
+				});
+		});
+	}
+
+	return <PhotoContext.Provider value={{ images, loading, setLoading, searchText, setSearchText, savedUrls, savedViewedData, getGeoLocation, geoLocation, getUserDetails, userDetails, getPhotoFromUrl, clickedImage, setGeoLocation, setUserDetails, setClickedImage, itemsWithGeo, setItemsWithGeo, setImages, checkBox, setCheckBox }}>{props.children}</PhotoContext.Provider>;
 };
 
 export default PhotoContextProvider;

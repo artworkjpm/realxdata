@@ -11,7 +11,7 @@ const Gallery = (props) => {
 	let noImages;
 
 	function OnGeolocation(photo_id, user) {
-		setGeoLocation({ lat: "", long: "" });
+		setGeoLocation({ lat: "", long: "", data: {} });
 		setUserDetails({ user: "", avatar: "" });
 		setClickedImage({ data: {}, title: "", imageUrl: "" });
 		props.history.push(`/${user}/${photo_id}`);

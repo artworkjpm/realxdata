@@ -9,7 +9,7 @@ const PhotoContextProvider = (props) => {
 	const [searchText, setSearchText] = useState("");
 	const [savedUrls, setSavedUrls] = useState([]);
 	const [savedViewedData, setSavedViewedData] = useState([{ url: "", data: [] }]);
-	const [geoLocation, setGeoLocation] = useState({ lat: "", long: "" });
+	const [geoLocation, setGeoLocation] = useState({ lat: "", long: "", data: {} });
 	const [userDetails, setUserDetails] = useState({ user: "", avatar: "" });
 	const [clickedImage, setClickedImage] = useState({ data: {}, title: "", imageUrl: "" });
 	const [itemsWithGeo, setItemsWithGeo] = useState([]);
@@ -53,7 +53,7 @@ const PhotoContextProvider = (props) => {
 			.get(`https://api.flickr.com/services/rest/?method=flickr.photos.geo.getLocation&api_key=${apiKey}&photo_id=${photo_id}&format=json&nojsoncallback=1`)
 			.then((response) => {
 				if (response.data.photo) {
-					setGeoLocation({ lat: response.data.photo.location.latitude, long: response.data.photo.location.longitude });
+					setGeoLocation({ lat: response.data.photo.location.latitude, long: response.data.photo.location.longitude, data: response.data.photo.location });
 				} else {
 					setGeoLocation({ lat: "", long: "" });
 				}
